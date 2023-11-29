@@ -5,14 +5,11 @@ public class ex03 {
         Scanner in_ = new Scanner(System.in);
         long progress_ = 0;
         int count_weeks_ = 0;
-        String tests_;
 
-        while (!(tests_ = in_.nextLine()).contains("42")) {
-            tests_ = tests_.replaceAll(" ", "");
-            int min_ = 9;
-            for(int i = 0; i < tests_.length(); ++i) {
-                if(min_ > Character.getNumericValue(tests_.charAt(i))) min_ = Character.getNumericValue(tests_.charAt(i));
-            }
+        while (in_.hasNext()){
+            int min_ = in_.nextInt();
+            if(min_ == 42) break;
+            for(int i = 0; i < 4; ++i) min_ = Math.min(min_, in_.nextInt());
             progress_ = progress_ * 10 + min_;
             ++count_weeks_;
         }
