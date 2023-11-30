@@ -2,57 +2,68 @@ import java.util.Scanner;
 
 public class ex04 {
     public static void main(String[] args) {
-        Scanner in_ = new Scanner(System.in);
-        String str_ = in_.nextLine();
-        String data_ = "";
-        String counts_ = "";
+        try (Scanner in_ = new Scanner(System.in)) {
+            String str_ = in_.nextLine();
+            String data_ = "";
+            String counts_ = "";
 
-        for (int i = 0; i < str_.length() - 2; ++i) {
-            boolean found_ = false;
+            for (int i = 0; i < str_.length() - 2; ++i) {
+                boolean found_ = false;
 
-            for (int j = 0; j < data_.length(); ++j) {
-                if (str_.toCharArray()[i] == data_.toCharArray()[j]) {
-                    counts_ = updateCounts(counts_, j);
-                    found_ = true;
-                    break;
+                for (int j = 0; j < data_.length(); ++j) {
+                    if (str_.toCharArray()[i] == data_.toCharArray()[j]) {
+                        counts_ = updateCounts(counts_, j);
+                        found_ = true;
+                        break;
+                    }
+                }
+
+                if (!found_) {
+                    data_ += str_.toCharArray()[i];
+                    counts_ += '\u0001';
                 }
             }
 
-            if (!found_) {
-                data_ += str_.toCharArray()[i];
-                counts_ += '\u0001';
+            int maxFrequency = getMaxFrequency(counts_);
+
+            String temp_counts_ = counts_;
+            String temp_data_ = data_;
+
+            for (int i = 11; i > 0; --i) {
+                for (int j = 0; j < temp_data_.length() && j < 10; ++j) {
+                    int space = 0;
+                    int index_max = findMaxFrequencyIndex(counts_.toCharArray());
+                    int counts_index_ = counts_.toCharArray()[index_max];
+                    int frequency = getMaxFrequency(counts_);
+                    for(int k = frequency; k != 0; k /= 10) space++; 
+                    double percentage = ((double) frequency / maxFrequency) * 100;
+                    char hash = (i <= Math.floor((float) (percentage / 100) * 10)) ? '#' : ' ';
+                    if(i - Math.floor((float) (percentage / 100) * 10) == 1) {
+                        if(space == 1) { 
+                            System.out.print("  " + counts_index_ + "  ");
+                        }
+                        if(space == 2) {
+                            System.out.print(" " + counts_index_ + "  ");
+                        }
+                        if(space == 3) {
+                            System.out.print(" " + counts_index_ + " ");
+                        }
+                    }
+                    else System.out.print("  " + hash + "  ");
+                    counts_ = deleteMaxElement(counts_, index_max);
+                    data_ = deleteMaxElement(data_, index_max);
+                }
+                counts_ = temp_counts_;
+                data_ = temp_data_;
+                System.out.println();
             }
-        }
 
-        int maxFrequency = getMaxFrequency(counts_);
-
-        String temp_counts_ = counts_;
-        String temp_data_ = data_;
-
-        for (int i = 11; i > 0; --i) {
-            for (int j = 0; j < temp_data_.length() && j < 10; ++j) {
+            for (int k = 0; k < data_.length() && k < 10; ++k) {
                 int index_max = findMaxFrequencyIndex(counts_.toCharArray());
                 char symbol = data_.toCharArray()[index_max];
-                int frequency = getMaxFrequency(counts_);
-                double percentage = ((double) frequency / maxFrequency) * 100;
-                char hash = (i <= Math.floor((float) (percentage / 100) * 10)) ? '#' : ' ';
-                if(i - Math.floor((float) (percentage / 100) * 10) == 1) {
-                    System.out.print(((int) counts_.toCharArray()[index_max] > 10 ? " " : "  ") + (int) counts_.toCharArray()[index_max] + ((int) counts_.toCharArray()[index_max] > 10 ? " " : "  "));
-                }
-                else System.out.print("  " + hash + "  ");
+                System.out.print("  " + symbol + "  ");
                 counts_ = deleteMaxElement(counts_, index_max);
-                data_ = deleteMaxElement(data_, index_max);
             }
-            counts_ = temp_counts_;
-            data_ = temp_data_;
-            System.out.println();
-        }
-
-        for (int k = 0; k < data_.length() && k < 10; ++k) {
-            int index_max = findMaxFrequencyIndex(counts_.toCharArray());
-            char symbol = data_.toCharArray()[index_max];
-            System.out.print("  " + symbol + "  ");
-            counts_ = deleteMaxElement(counts_, index_max);
         }
     }
     public static int findMaxFrequencyIndex(char[] counts) {

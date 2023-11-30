@@ -2,14 +2,15 @@ import java.util.Scanner;
 
 public class ex02 {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int number;
-        int count_coffe = 0;
-        while ((number = in.nextInt()) != 42) {
-            number = SumDigitsOfNumber(number);
-            if(SimpleNumber(number)) count_coffe++;
+        try (Scanner in = new Scanner(System.in)) {
+            int number;
+            int count_coffe = 0;
+            while ((number = in.nextInt()) != 42) {
+                number = SumDigitsOfNumber(number);
+                if(SimpleNumber(number)) count_coffe++;
+            }
+            System.out.println("Count of coffee-request - " + count_coffe);
         }
-        System.out.println("Count of coffee-request - " + count_coffe);
     }
 
     public static int SumDigitsOfNumber(int number) {
