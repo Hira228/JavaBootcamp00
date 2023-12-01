@@ -11,12 +11,11 @@ public class ex05 {
         String[] days =  {
                 " TU", " WE", " TH", " FR", " SA", " SU", " MO"
         };
-        int[] dates_ = {1, 2, 3, 4, 5, 6, 7};
 
-        int[] times_ = new int[10];
-        String[] days_written_ = new String[10];
-        String[] names_ = new String[10];
-        int[][] journal = new int[20][4];
+        int[] times_ = new int[50];
+        String[] days_written_ = new String[50];
+        String[] names_ = new String[50];
+        int[][] journal = new int[50][4];
 
         int count_journal = 0;
         int count_times_days = 0;
@@ -58,21 +57,33 @@ public class ex05 {
                                     ":00 " + days_written_[dayIndex] +
                                     "  " + (j + 1) + "|");
                             if (j <= 10) index_printable = j;
-                            times_[timeIndex] = Integer.MAX_VALUE;
                         } else {
                             int attendance_ = CheckAttendance(journal, count_journal, i - 1, times_[timeIndex], j + 1);
-                            System.out.print((!print_names ? names_[i - 1] : "") +
-                                    " ".repeat((attendance_ == -1 ? 11 : 12) - (!print_names ? names_[i - 1].length() : 0) +
-                                            (j >= index_printable ? 1 : 0)) + (attendance_ != 0 ? attendance_ : " ")  + "|");
+                            System.out.print(
+                                    (!print_names ? names_[i - 1] : "") +
+                                            repeatChar((attendance_ == -1 ? 11 : 12) -
+                                                    (!print_names ? names_[i - 1].length() : 0) +
+                                                    ((j >= index_printable && attendance_ == 0) ? 1 : 0) +
+                                                    (attendance_ != 0 && j >= index_printable && j >= 10 ? 1 : 0)) +
+                                            (attendance_ != 0 ? attendance_ : " ") + "|"
+                            );
                             print_names = true;
-                            times_[timeIndex] = Integer.MAX_VALUE;
                         }
                     }
+                    times_[timeIndex] = Integer.MAX_VALUE;
                 }
                 for (int l = 0; l < times_.length; l++) times_[l] = times_temp[l];
             }
             System.out.println();
         }
+    }
+
+    private static String repeatChar(int times) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            result.append(' ');
+        }
+        return result.toString();
     }
 
     private static int CheckAttendance(final int[][] journal, final int length_journal, final int name_, final int time_, final int day_) {
