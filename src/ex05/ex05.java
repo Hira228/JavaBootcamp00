@@ -78,12 +78,12 @@ public class ex05 {
         }
     }
 
-    private static String repeatChar(int times) {
-        StringBuilder result = new StringBuilder();
+    private static String repeatChar( int times) {
+        String repeated = "";
         for (int i = 0; i < times; i++) {
-            result.append(' ');
+            repeated += " ";
         }
-        return result.toString();
+        return repeated;
     }
 
     private static int CheckAttendance(final int[][] journal, final int length_journal, final int name_, final int time_, final int day_) {
