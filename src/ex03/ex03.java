@@ -14,8 +14,15 @@ public class ex03 {
                 ++count_weeks_;
             }
             for(long i = (int) Math.pow(10, count_weeks_ - 1), c = 1; i != 0; i /= 10, ++c) {
-                System.out.println("Week" + c + "=".repeat((int) (progress_ / i % 10)) + ">");
+                System.out.println("Week" + c + repeatChar((int) (progress_ / i % 10)) + ">");
             }
         }
+    }
+    private static String repeatChar(int times) {
+        String repeated = "";
+        for (int i = 0; i < times; i++) {
+            repeated += '=';
+        }
+        return repeated;
     }
 }
